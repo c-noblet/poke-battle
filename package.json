@@ -1,0 +1,10 @@
+{
+  "name": "poke-batlle",
+  "version": "1.0.0",
+  "main": "poke-battle.js",
+  "license": "MIT",
+  "dependencies": {
+    "jimp": "^0.9.3",
+    "twitter": "^1.7.1"
+  }
+}
