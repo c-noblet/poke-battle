@@ -2,7 +2,7 @@
 node_modules
 /dist
 options.json
-
+assets
 # local env files
 .env.local
 .env.*.local
