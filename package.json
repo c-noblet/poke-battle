@@ -4,7 +4,12 @@
   "main": "poke-battle.js",
   "license": "MIT",
   "dependencies": {
+    "async-call": "^1.0.0",
+    "cron": "^1.8.1",
+    "isomorphic-fetch": "^2.2.1",
     "jimp": "^0.9.3",
-    "twitter": "^1.7.1"
+    "node-fetch": "^2.6.0",
+    "twitter": "^1.7.1",
+    "whatwg-fetch": "^3.0.0"
   }
 }
