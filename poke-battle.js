@@ -6,6 +6,8 @@ const options = require('./options.json');
 const fs = require('fs');
 var utils = require('./utils');
 
+var client = new Twitter(options);
+
 var font;
 var timestamp = Date.now();
 var stadiums = fs.readdirSync('./assets/stadiums/').sort();
@@ -49,7 +51,7 @@ if(battle.stadium.indexOf('gen3') !== -1){
 }else{
   font = './assets/font/pokedex-black.fnt'
   frontPositionY = 60;
-  fontPositionY = 333;
+  fontPositionY = 331;
   backPositionX = 3;
 }
 var trainerArray = battle.trainerFront.split('_');
@@ -89,8 +91,9 @@ Promise.all(jimps).then(function(data) {
     battle.scale(1.1);
     console.log(trainerName);
     battle.print(font, 25, fontPositionY, 'You  are  challenged  by  '+trainerType+'  '+trainerName+'!', 400);
-    battle.write('assets/test.png', function() {
-      console.log("wrote the image");
+    battle.write('assets/battle-pic.png', function() {
+      var battlePic = fs.readFileSync('assets/test.png');
+      tweetBattlePic(battlePic);
     });
   });
 });
@@ -103,4 +106,24 @@ async function getUsername(gender){
   let response = fetch('https://randomuser.me/api/?inc=name&results=1&nat=us,gb&'+genderQuery)
   let data = await (await response).json()
   return data.results[0].name.first;
+}
+
+function tweetBattlePic(picture){
+  var tweetOption = {
+    media: picture
+  }
+  client.post('media/upload', tweetOption, function(error, media, response) {
+    if(!error) {
+
+      var status = {
+        media_ids: media.media_id_string // Pass the media id string
+      }
+
+      client.post('statuses/update', status, function(error, tweet, response) {
+        if (!error) {
+          console.log('Battle Pic tweeted');
+        }
+      });
+  }
+  });
 }
