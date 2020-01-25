@@ -6,7 +6,7 @@ const options = require('./options.json');
 const fs = require('fs');
 var utils = require('./utils');
 
-//const cronJob = new CronJob('0 10,16 * * *', function() {
+const cronJob = new CronJob('0 10,16 * * *', function() {
   var client = new Twitter(options);
 
   var font;
@@ -129,5 +129,5 @@ var utils = require('./utils');
     });
   }
   
-//}, null, true, 'Europe/Paris');
-//cronJob.start();
+}, null, true, 'Europe/Paris');
+cronJob.start();
