@@ -6,7 +6,7 @@ const options = require('./options.json');
 const fs = require('fs');
 var utils = require('./utils');
 
-const cronJob = new CronJob('0 10,16 * * *', function() {
+//const cronJob = new CronJob('0 10,16 * * *', function() {
   var client = new Twitter(options);
 
   var font;
@@ -93,7 +93,7 @@ const cronJob = new CronJob('0 10,16 * * *', function() {
       console.log(trainerName);
       battle.print(font, 25, fontPositionY, 'You  are  challenged  by  '+trainerType+'  '+trainerName+'!', 400);
       battle.write('assets/battle-pic.png', function() {
-        var battlePic = fs.readFileSync('assets/test.png');
+        var battlePic = fs.readFileSync('assets/battle-pic.png');
         tweetBattlePic(battlePic);
       });
     });
@@ -129,5 +129,5 @@ const cronJob = new CronJob('0 10,16 * * *', function() {
     });
   }
   
-}, null, true, 'Europe/Paris');
-cronJob.start();
+//}, null, true, 'Europe/Paris');
+//cronJob.start();
