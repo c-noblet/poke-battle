@@ -4,9 +4,11 @@ import { readdirSync, readFileSync } from 'fs';
 import Axios from 'axios';
 import { ResponseData } from 'twitter';
 
+dotenv.config();
+
 const Twitter = require('twitter');
 
-dotenv.config();
+const path = process.env.ABSOLUTE_PATH;
 
 class Battle {
   stadium: {
@@ -68,14 +70,14 @@ class Battle {
     }
     try {
       /* Lists of assets */
-      const stadiums = readdirSync('./assets/stadiums/').sort();
-      const pkmnsFront = readdirSync('./assets/pkmns-front/4g/').sort();
-      const trainersFront = readdirSync('./assets/trainers-front/').sort();
-      const pkmnsBack = readdirSync('./assets/pkmns-back/4g/').sort();
-      const trainersBack = readdirSync('./assets/trainers-back/').sort();
+      const stadiums = readdirSync(`${path}/assets/stadiums/`).sort();
+      const pkmnsFront = readdirSync(`${path}/assets/pkmns-front/4g/`).sort();
+      const trainersFront = readdirSync(`${path}/assets/trainers-front/`).sort();
+      const pkmnsBack = readdirSync(`${path}/assets/pkmns-back/4g/`).sort();
+      const trainersBack = readdirSync(`${path}/assets/trainers-back/`).sort();
 
       /* Get the stadium asset */
-      this.stadium.asset = `assets/stadiums/${stadiums[getRandom(stadiums)]}`;
+      this.stadium.asset = `${path}/assets/stadiums/${stadiums[getRandom(stadiums)]}`;
 
       /* Set the stadium gen */
       if (this.stadium.asset.includes('gen3')) {
@@ -87,10 +89,10 @@ class Battle {
       }
 
       /* Get pokemons and trainers asset */
-      this.pkmnFront.asset = `assets/pkmns-front/4g/${pkmnsFront[getRandom(pkmnsFront)]}`;
-      this.trainerFront.asset = `assets/trainers-front/${trainersFront[getRandom(trainersFront)]}`;
-      this.pkmnBack.asset = `assets/pkmns-back/4g/${pkmnsBack[getRandom(pkmnsBack)]}`;
-      this.trainerBack.asset = `assets/trainers-back/${trainersBack[getRandom(trainersBack)]}`;
+      this.pkmnFront.asset = `${path}/assets/pkmns-front/4g/${pkmnsFront[getRandom(pkmnsFront)]}`;
+      this.trainerFront.asset = `${path}/assets/trainers-front/${trainersFront[getRandom(trainersFront)]}`;
+      this.pkmnBack.asset = `${path}/assets/pkmns-back/4g/${pkmnsBack[getRandom(pkmnsBack)]}`;
+      this.trainerBack.asset = `${path}/assets/trainers-back/${trainersBack[getRandom(trainersBack)]}`;
 
       /* Determine opponent gender */
       this.trainerFront.gender = this.trainerFront.asset.split('_')[3].substr(0, 1);
@@ -152,7 +154,7 @@ class Battle {
       const trainerBackAsset = await Jimp.read(this.trainerBack.asset);
 
       /* Set up the font and all assets positions */
-      let font:string = './assets/font/pokedex-black.fnt';
+      let font:string = `${path}/assets/font/pokedex-black.fnt`;
       let fontPositionY:number = 298;
 
       let opponentLine:Array<number> = [240, 60];
@@ -161,7 +163,7 @@ class Battle {
       let backLineOfsset = 80;
 
       if (this.stadium.generation === 3) {
-        font = './assets/font/pokedex-white.fnt';
+        font = `${path}/assets/font/pokedex-white.fnt`;
         fontPositionY = 365;
 
         opponentLine = [300, 108];
@@ -194,7 +196,7 @@ class Battle {
       stadiumAsset.print(fontPic, 25, fontPositionY, `You  are  challenged  by  ${this.trainerFront.type}  ${this.trainerFront.name}!`, 390);
 
       /*  Save the picture */
-      await stadiumAsset.writeAsync('assets/battle-pic.png');
+      await stadiumAsset.writeAsync(`${path}/assets/battle-pic.png`);
     } catch (error) {
       console.log(error);
     }
@@ -210,7 +212,7 @@ class Battle {
     });
 
     /* Get the picture */
-    const picture = readFileSync('assets/battle-pic.png');
+    const picture = readFileSync(`${path}/assets/battle-pic.png`);
 
     /*  Upload the picture */
     client.post('media/upload', { media: picture }, (uploadError:any, media:ResponseData) => {
