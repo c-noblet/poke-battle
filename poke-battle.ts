@@ -54,13 +54,7 @@ class Battle {
   };
 
   constructor() {
-    this.build();
-  }
-
-  /*  class builder */
-  build = async () => {
     this.getAssets();
-    await this.getOpponentName();
   }
 
   /* Get all assets */
@@ -130,7 +124,7 @@ class Battle {
         let genderQuery = 'gender=female';
 
         if (this.trainerFront.gender === 'M') {
-          genderQuery = 'gender=female';
+          genderQuery = 'gender=male';
         }
         const response = await Axios.get(`https://randomuser.me/api/?inc=name&results=1&nat=us,gb&${genderQuery}`);
         this.trainerFront.name = response.data.results[0].name.first;
@@ -229,7 +223,9 @@ class Battle {
 /* Running code */
 (async () => {
   /* Get battle informations */
-  const battlePic = new Battle();
+  const battlePic = await new Battle();
+  /* get Opponent name */
+  await battlePic.getOpponentName();
   /* Make the battle picture */
   await battlePic.makePicture();
   /* Tweet the picture */
