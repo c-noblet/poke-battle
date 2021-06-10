@@ -187,7 +187,7 @@ class Battle {
 
       /* Print the battle text */
       const fontPic = await Jimp.loadFont(font);
-      stadiumAsset.print(fontPic, 25, fontPositionY, `You  are  challenged  by  ${this.trainerFront.type}  ${this.trainerFront.name}!`, 390);
+      stadiumAsset.print(fontPic, 25, fontPositionY, `You  are  challenged  by  ${this.trainerFront.type.toUpperCase()}  ${this.trainerFront.name.toUpperCase()}!`, 390);
 
       /*  Save the picture */
       await stadiumAsset.writeAsync(`${path}/assets/battle-pic.png`);
